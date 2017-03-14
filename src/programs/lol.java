@@ -3,6 +3,7 @@ package programs;
 import classes.*;
 import help.*;
 
+import java.util.Arrays;
 import java.util.Scanner;
 import javax.sound.midi.*;
 
@@ -15,8 +16,8 @@ public class lol {
 	private Note G5 = new Note(67, null);
 	private Note C6 = new Note(72, null);
 	private Note C4 = new Note(36, null);
-	private NoteGroup CmajChord = new NoteGroup(new int[] { 48, 52, 55 }, null);
-	private NoteGroup G7majChord = new NoteGroup(new int[] { 43, 47, 50, 53 }, null);
+	private NoteGroup CmajChord = new NoteGroup(Arrays.asList(48, 52, 55), null);
+	private NoteGroup G7majChord = new NoteGroup(Arrays.asList(43, 47, 50, 53), null);
 	private int quarterMillis;
 
 	public lol(int bpm, int instrument) throws MidiUnavailableException {

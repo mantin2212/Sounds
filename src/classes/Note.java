@@ -1,14 +1,11 @@
 package classes;
 
-import javax.sound.midi.Instrument;
 import javax.sound.midi.MidiChannel;
 
-import help.*;
+import help.NotesHelp;
 
-public class Note implements Playable {
+public class Note extends Playable {
 	private int place;
-	private MidiChannel channel;
-	private Instrument defaultInstrument;
 
 	public Note(int place, MidiChannel channel) {
 		this.place = place;
@@ -44,16 +41,4 @@ public class Note implements Playable {
 		channel.noteOff(place);
 	}
 
-	// plays the note on a chosen instrument
-	public void play(long millis, Instrument inst) {
-		channel.programChange(inst.getPatch().getProgram());
-		this.play(millis);
-		channel.programChange(defaultInstrument.getPatch().getProgram());
-	}
-
-	@Override
-	public void setDefaultInstrument(Instrument instrument) {
-		this.defaultInstrument = instrument;
-
-	}
 }

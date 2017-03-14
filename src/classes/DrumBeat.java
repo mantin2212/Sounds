@@ -8,7 +8,7 @@ import javax.sound.midi.MidiSystem;
 import javax.sound.midi.MidiUnavailableException;
 import javax.sound.midi.Synthesizer;
 
-public class DrumBeat {
+public class DrumBeat implements Playable{
 	private int cymbalPlace;
 	private int length;
 	private ArrayList<Integer> snares;
@@ -33,34 +33,51 @@ public class DrumBeat {
 	public void playBeat() {
 	}
 
-	public void playRockBeat(int bars, int beatTime) {
+	public void playBeat(int bars, int beatTime) {
 		ArrayList<Integer> toPlay = new ArrayList<Integer>();
-		NoteGroup drums = new NoteGroup();
-		int snaresCount = 0, kicksCount = 0;
 		for (int b = 0; b < bars; b++) {
-			snaresCount = 0;
-			kicksCount = 0;
 			for (int i = 0; i < 16; i++) {
 				if (i == 0)
 					toPlay.add(49);
 				else
 					toPlay.add(42);
-				if (snares.size() != snaresCount) {
-					if (snares.get(snaresCount) == i) {
-						toPlay.add(38);
-						snaresCount++;
-					}
-				}
-				if (kicks.size() != kicksCount) {
-					if (kicks.get(kicksCount) == i) {
-						toPlay.add(35);
-						kicksCount++;
-					}
-				}
-
+				if (snares.contains(i))
+					toPlay.add(38);
+				if (snares.contains(i))
+					toPlay.add(35);
 				playDrums(channel, toPlay, beatTime);
 				toPlay.clear();
 			}
 		}
+	}
+
+	private void playDrums(MidiChannel ch, ArrayList<Integer> places, long millis) {
+		for (int i : places)
+			ch.noteOn(i, 90);
+		try {
+			Thread.sleep(millis);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		for (int i : places)
+			ch.noteOff(i, 64);
+	}
+
+	@Override
+	public void play(long millis) throws InterruptedException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void play(long millis, Instrument inst) throws InterruptedException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setDefaultInstrument(Instrument instrument) {
+		// TODO Auto-generated method stub
+		
 	}
 }

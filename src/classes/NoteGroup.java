@@ -1,6 +1,6 @@
 package classes;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import javax.sound.midi.Instrument;
 import javax.sound.midi.MidiChannel;
@@ -8,10 +8,8 @@ import javax.sound.midi.MidiChannel;
 import help.GeneralHelp;
 import help.NotesHelp;
 
-public class NoteGroup implements Playable {
-	private ArrayList<Integer> notes;
-	private MidiChannel channel;
-	private Instrument defaultInstrument;
+public class NoteGroup extends Playable {
+	private List<Integer> notes;
 
 	public NoteGroup() {
 	}
@@ -20,12 +18,12 @@ public class NoteGroup implements Playable {
 		this(GeneralHelp.toArrayList(notes));
 	}
 
-	public NoteGroup(ArrayList<Integer> notes) {
+	public NoteGroup(List<Integer> notes) {
 		this.notes = notes;
 		defaultInstrument = NotesHelp.defaultInstrument;
 	}
 
-	public NoteGroup(ArrayList<Integer> notes, MidiChannel channel) {
+	public NoteGroup(List<Integer> notes, MidiChannel channel) {
 		this.notes = notes;
 		this.channel = channel;
 		defaultInstrument = NotesHelp.defaultInstrument;
@@ -33,10 +31,6 @@ public class NoteGroup implements Playable {
 
 	public void setChannel(MidiChannel newChannel) {
 		this.channel = newChannel;
-	}
-
-	public void updateDefaultInstrument() {
-		defaultInstrument = NotesHelp.defaultInstrument;
 	}
 
 	public void play(long millis) {
@@ -52,13 +46,6 @@ public class NoteGroup implements Playable {
 		for (int i : notes)
 			channel.noteOff(i);
 
-	}
-
-	@Override
-	public void play(long millis, Instrument inst) {
-		channel.programChange(inst.getPatch().getProgram());
-		this.play(millis);
-		channel.programChange(defaultInstrument.getPatch().getProgram());
 	}
 
 	@Override
